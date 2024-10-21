@@ -15,8 +15,10 @@ class ActivityDetailPage extends StatelessWidget {
   static const String routeName = '/http-activity-detail';
 
   final HttpActivity httpActivity;
+  ThemeData? theme;
   const ActivityDetailPage({
     required this.httpActivity,
+    this.theme,
     super.key,
   });
 
@@ -26,10 +28,11 @@ class ActivityDetailPage extends StatelessWidget {
       create: (context) => ActivityDetailProvider(
         httpActivity: httpActivity,
         context: context,
+        theme: theme,
       ),
       builder: (context, child) {
         final provider = context.read<ActivityDetailProvider>();
-        return Scaffold(
+        Widget child = Scaffold(
           appBar: AppBar(
             title: const Text('Detail Http Activity'),
             actions: [
@@ -59,6 +62,13 @@ class ActivityDetailPage extends StatelessWidget {
           ),
           body: buildBody(context),
         );
+        if (theme != null) {
+          child = Theme(
+            data: theme!,
+            child: child,
+          );
+        }
+        return child;
       },
     );
   }

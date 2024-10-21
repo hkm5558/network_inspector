@@ -16,9 +16,10 @@ import 'activity_filter_provider.dart';
 /// @nodoc
 class ActivityProvider extends ChangeNotifier {
   final BuildContext context;
-
+  ThemeData? theme;
   ActivityProvider({
     required this.context,
+    this.theme,
   }) {
     injectDependencies().whenComplete(() {
       initState();
@@ -101,6 +102,7 @@ class ActivityProvider extends ChangeNotifier {
       MaterialPageRoute<void>(
         builder: (context) => ActivityDetailPage(
           httpActivity: httpActivity,
+          theme: theme,
         ),
       ),
     );

@@ -25,8 +25,11 @@ import '../widgets/filter_bottom_sheet_content.dart';
 /// ```
 class ActivityPage extends StatelessWidget {
   static const String routeName = '/http-activity';
-
-  ActivityPage({super.key});
+  ThemeData? theme;
+  ActivityPage({
+    super.key,
+    this.theme,
+  });
 
   final _byteUtil = ByteUtil();
   final _dateTimeUtil = DateTimeUtil();
@@ -37,31 +40,40 @@ class ActivityPage extends StatelessWidget {
       create: (context) => ActivityProvider(
         context: context,
       ),
-      builder: (context, child) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Http Activities'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                onTapFilterIcon(context);
-              },
-              icon: const Icon(
-                Icons.filter_list_alt,
+      builder: (context, child) {
+        Widget child = Scaffold(
+          appBar: AppBar(
+            title: const Text('Http Activities'),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  onTapFilterIcon(context);
+                },
+                icon: const Icon(
+                  Icons.filter_list_alt,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                final provider = context.read<ActivityProvider>();
-                provider.deleteActivities();
-              },
-              icon: const Icon(
-                Icons.delete,
+              IconButton(
+                onPressed: () {
+                  final provider = context.read<ActivityProvider>();
+                  provider.deleteActivities();
+                },
+                icon: const Icon(
+                  Icons.delete,
+                ),
               ),
-            ),
-          ],
-        ),
-        body: buildBody(context),
-      ),
+            ],
+          ),
+          body: buildBody(context),
+        );
+        if (theme != null) {
+          child = Theme(
+            data: theme!,
+            child: child,
+          );
+        }
+        return child;
+      },
     );
   }
 
