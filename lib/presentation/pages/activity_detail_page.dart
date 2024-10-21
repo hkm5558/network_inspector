@@ -15,7 +15,7 @@ class ActivityDetailPage extends StatelessWidget {
   static const String routeName = '/http-activity-detail';
 
   final HttpActivity httpActivity;
-  ThemeData? theme;
+  final ThemeData? theme;
   const ActivityDetailPage({
     required this.httpActivity,
     this.theme,

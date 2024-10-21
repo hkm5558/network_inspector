@@ -39,6 +39,7 @@ class ActivityPage extends StatelessWidget {
     return ChangeNotifierProvider<ActivityProvider>(
       create: (context) => ActivityProvider(
         context: context,
+        theme: theme,
       ),
       builder: (context, child) {
         Widget child = Scaffold(
