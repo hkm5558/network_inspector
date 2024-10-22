@@ -13,11 +13,9 @@ import '../../domain/entities/http_activity.dart';
 class ActivityDetailProvider extends ChangeNotifier {
   final BuildContext context;
   final HttpActivity httpActivity;
-  ThemeData? theme;
   ActivityDetailProvider({
     required this.httpActivity,
     required this.context,
-    this.theme,
   });
 
   final _jsonUtil = JsonUtil();

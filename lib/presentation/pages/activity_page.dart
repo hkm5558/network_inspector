@@ -25,11 +25,7 @@ import '../widgets/filter_bottom_sheet_content.dart';
 /// ```
 class ActivityPage extends StatelessWidget {
   static const String routeName = '/http-activity';
-  ThemeData? theme;
-  ActivityPage({
-    super.key,
-    this.theme,
-  });
+  ActivityPage({super.key});
 
   final _byteUtil = ByteUtil();
   final _dateTimeUtil = DateTimeUtil();
@@ -39,7 +35,6 @@ class ActivityPage extends StatelessWidget {
     return ChangeNotifierProvider<ActivityProvider>(
       create: (context) => ActivityProvider(
         context: context,
-        theme: theme,
       ),
       builder: (context, child) {
         Widget child = Scaffold(
@@ -67,12 +62,11 @@ class ActivityPage extends StatelessWidget {
           ),
           body: buildBody(context),
         );
-        if (theme != null) {
-          child = Theme(
-            data: theme!,
-            child: child,
-          );
-        }
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        child = Theme(
+          data: isDark ? ThemeData.dark() : ThemeData.light(),
+          child: child,
+        );
         return child;
       },
     );

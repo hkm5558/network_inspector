@@ -15,10 +15,8 @@ class ActivityDetailPage extends StatelessWidget {
   static const String routeName = '/http-activity-detail';
 
   final HttpActivity httpActivity;
-  final ThemeData? theme;
   const ActivityDetailPage({
     required this.httpActivity,
-    this.theme,
     super.key,
   });
 
@@ -28,47 +26,45 @@ class ActivityDetailPage extends StatelessWidget {
       create: (context) => ActivityDetailProvider(
         httpActivity: httpActivity,
         context: context,
-        theme: theme,
       ),
       builder: (context, child) {
-        final provider = context.read<ActivityDetailProvider>();
-        Widget child = Scaffold(
-          appBar: AppBar(
-            title: const Text('Detail Http Activity'),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  provider.buildJson(
-                    provider.shareHttpActivity,
-                    HttpActivityActionType.share,
-                  );
-                },
-                icon: const Icon(
-                  Icons.share,
-                ),
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return Theme(
+          data: isDark ? ThemeData.dark() : ThemeData.light(),
+          child: Builder(builder: (context) {
+            final provider = context.read<ActivityDetailProvider>();
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Detail Http Activity'),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      provider.buildJson(
+                        provider.shareHttpActivity,
+                        HttpActivityActionType.share,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.share,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      provider.buildJson(
+                        provider.copyHttpActivity,
+                        HttpActivityActionType.copy,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.copy,
+                    ),
+                  ),
+                ],
               ),
-              IconButton(
-                onPressed: () {
-                  provider.buildJson(
-                    provider.copyHttpActivity,
-                    HttpActivityActionType.copy,
-                  );
-                },
-                icon: const Icon(
-                  Icons.copy,
-                ),
-              ),
-            ],
-          ),
-          body: buildBody(context),
+              body: buildBody(context),
+            );
+          }),
         );
-        if (theme != null) {
-          child = Theme(
-            data: theme!,
-            child: child,
-          );
-        }
-        return child;
       },
     );
   }
